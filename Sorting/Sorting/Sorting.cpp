@@ -52,7 +52,7 @@ void selectionSort(int list[], int listLength)
     return;
 }
 
-/*-------------------- 
+/*--------------------
   Сортировка вставками
 ---------------------*/
 
@@ -73,49 +73,32 @@ void insertionSort(int list[], int listLength)
   Сортировка подсчетом
 ----------------------*/
 
-void countSort(int list[], int listLength) {
-    // The size of count must be at least the (max+1) but
-    // we cannot assign declare it as int count(max+1) in C++ as
-    // it does not support dynamic memory allocation.
-    // So, its size is provided statically.
-    int output[10];
-    int count[10];
-    int max = list[0];
 
-    // Find the largest element of the array
-    for (int i = 1; i < listLength; i++) {
+void countingSort(int list[], int listLength)
+{
+    int max = INT_MIN, min = INT_MAX;
+    for (int i = 0; i < listLength; i++) {
         if (list[i] > max)
             max = list[i];
+        if (list[i] < min)
+            min = list[i];
     }
-
-    // Initialize count array with all zeros.
-    for (int i = 0; i <= max; ++i) {
-        count[i] = 0;
+    int* c = new int[max + 1 - min];
+    for (int i = 0; i < max + 1 - min; i++) {
+        c[i] = 0;
     }
-
-    // Store the count of each element
     for (int i = 0; i < listLength; i++) {
-        count[list[i]]++;
+        c[list[i] - min] = c[list[i] - min] + 1;
     }
-
-    // Store the cummulative count of each array
-    for (int i = 1; i <= max; i++) {
-        count[i] += count[i - 1];
-    }
-
-    // Find the index of each element of the original array in count array, and
-    // place the elements in output array
-    for (int i = listLength - 1; i >= 0; i--) {
-        output[count[list[i]] - 1] = list[i];
-        count[list[i]]--;
-    }
-
-    // Copy the sorted elements into original array
-    for (int i = 0; i < listLength; i++) {
-        list[i] = output[i];
+    int i = 0;
+    for (int j = min; j < max + 1; j++) {
+        while (c[j - min] != 0) {
+            list[i] = j;
+            c[j - min]--;
+            i++;
+        }
     }
 }
-
 /*-------------------
   Сортировка слиянием
 --------------------*/
@@ -226,22 +209,22 @@ int main()
     }
 
     clock_t start = clock();
-    
+
     //bubbleSort(data, size);
-    
+
     //selectionSort(data, size);
-    
+
     //insertionSort(data, size);
-    
+
     //quickSort(data, 0, size - 1);
-    
+
     //mergeSort(data, 0, size-1);
-    
-    //int test[10] = { 2, 3, 6, 8, 9, 1, 4, 7, 5, 10 };
-    //countSort(test, 10);
+
+    //countingSort(data, size);
 
     clock_t end = clock();
     double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+    //cout << size << endl;
     cout << "Время исполнения алгоритма составило: " << seconds << "\n";
     for (int i = 0; i < size; i++)
     {
