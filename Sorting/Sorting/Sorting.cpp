@@ -199,14 +199,19 @@ int main()
     int size = sizeof(data) / sizeof(*data);
     setlocale(LC_ALL, "Russian");
     FILE* in = nullptr, * out = nullptr;
-    freopen_s(&in, "input.txt", "r", stdin);
+    //freopen_s(&in, "input.txt", "r", stdin);
     freopen_s(&out, "output.txt", "w", stdout);
     ios::sync_with_stdio(false);
 
-    for (int i = 0; i < size; i++)
+    for (int j = 0; j < 1; j++)
     {
-        cin >> data[i];
+        int run = rand() % 5;
+        for (int i = 0; i < 100000; i++)
+        {
+            data[i] = rand() % 100;
+        }
     }
+        
 
     clock_t start = clock();
 
@@ -220,7 +225,7 @@ int main()
 
     //mergeSort(data, 0, size-1);
 
-    //countingSort(data, size);
+    countingSort(data, size);
 
     clock_t end = clock();
     double seconds = (double)(end - start) / CLOCKS_PER_SEC;
